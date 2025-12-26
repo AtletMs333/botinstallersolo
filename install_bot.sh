@@ -34,8 +34,8 @@ check_status() {
     fi
 }
 
-# Получение директории скрипта
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Директория с конфигами
+CONFIG_DIR="/root"
 
 echo "=========================================="
 echo "  Автоматическая установка SoloNet Bot"
@@ -116,14 +116,16 @@ done
 # Проверка наличия config.py и texts.py
 echo ""
 print_info "Проверка наличия необходимых файлов..."
-if [ ! -f "$SCRIPT_DIR/config.py" ]; then
-    print_error "Файл config.py не найден в директории скрипта: $SCRIPT_DIR"
+if [ ! -f "$CONFIG_DIR/config.py" ]; then
+    print_error "Файл config.py не найден в /root/"
+    print_error "Загрузите config.py в /root/ и запустите скрипт снова"
     exit 1
 fi
 print_success "Файл config.py найден"
 
-if [ ! -f "$SCRIPT_DIR/texts.py" ]; then
-    print_error "Файл texts.py не найден в директории скрипта: $SCRIPT_DIR"
+if [ ! -f "$CONFIG_DIR/texts.py" ]; then
+    print_error "Файл texts.py не найден в /root/"
+    print_error "Загрузите texts.py в /root/ и запустите скрипт снова"
     exit 1
 fi
 print_success "Файл texts.py найден"
@@ -280,12 +282,12 @@ check_status "Репозиторий клонирован" "Ошибка кло�
 
 # ==================== КОПИРОВАНИЕ ФАЙЛОВ ====================
 print_info "Копирование config.py..."
-cp "$SCRIPT_DIR/config.py" "$BOT_PATH/config.py"
+cp "$CONFIG_DIR/config.py" "$BOT_PATH/config.py"
 check_status "config.py скопирован в $BOT_PATH" "Ошибка копирования config.py"
 
 print_info "Копирование texts.py..."
 mkdir -p "$BOT_PATH/handlers"
-cp "$SCRIPT_DIR/texts.py" "$BOT_PATH/handlers/texts.py"
+cp "$CONFIG_DIR/texts.py" "$BOT_PATH/handlers/texts.py"
 check_status "texts.py скопирован в $BOT_PATH/handlers" "Ошибка копирования texts.py"
 
 # ==================== ВИРТУАЛЬНОЕ ОКРУЖЕНИЕ ====================
